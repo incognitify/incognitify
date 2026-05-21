@@ -1,0 +1,28 @@
+{
+  "name": "incognitify",
+  "version": "0.0.0",
+  "description": "Mask sensitive data before sending it to an LLM. CLI for @incognitify/core.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "incognitify": "./dist/index.js"
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@incognitify/core": "workspace:*",
+    "commander": "^12.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
