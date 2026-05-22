@@ -3,8 +3,6 @@
 Mask sensitive data before it reaches an LLM. Rehydrate the response so you get a
 clean answer with real values — while the provider never sees the originals.
 
-This repository is a monorepo. See [`CLAUDE.md`](./CLAUDE.md) for the full design.
-
 ## Packages
 
 - [`packages/core`](./packages/core) — `@incognitify/core`, the engine + SDK

@@ -3,7 +3,7 @@
 Command-line wrapper over [`@incognitify/core`](../core).
 
 ```bash
-npm install -g incognitify
+npm install -g @incognitify/cli
 incognitify --help
 ```
 

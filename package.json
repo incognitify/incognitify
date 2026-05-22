@@ -1,5 +1,5 @@
 {
-  "name": "incognitify-monorepo",
+  "name": "incognitify",
   "version": "0.0.0",
   "private": true,
   "description": "Mask sensitive data before sending to an LLM, rehydrate the response.",

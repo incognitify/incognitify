@@ -1,5 +1,5 @@
 {
-  "name": "incognitify",
+  "name": "@incognitify/cli",
   "version": "0.0.0",
   "description": "Mask sensitive data before sending it to an LLM. CLI for @incognitify/core.",
   "license": "MIT",
