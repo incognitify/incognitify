@@ -2,7 +2,18 @@
   "name": "@incognitify/core",
   "version": "0.0.0",
   "description": "Detect sensitive data, mask it for LLM calls, and rehydrate responses. Browser-safe, no I/O.",
+  "keywords": ["llm", "ai", "privacy", "pii", "mask", "redact", "anonymize", "sdk"],
+  "author": "Arthur Silva <contact@arthursilva.com>",
   "license": "MIT",
+  "homepage": "https://github.com/incognitify/incognitify/tree/main/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incognitify/incognitify.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/incognitify/incognitify/issues"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -14,7 +25,7 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

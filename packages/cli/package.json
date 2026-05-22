@@ -2,12 +2,23 @@
   "name": "@incognitify/cli",
   "version": "0.0.0",
   "description": "Mask sensitive data before sending it to an LLM. CLI for @incognitify/core.",
+  "keywords": ["llm", "ai", "privacy", "pii", "mask", "redact", "cli"],
+  "author": "Arthur Silva <contact@arthursilva.com>",
   "license": "MIT",
+  "homepage": "https://github.com/incognitify/incognitify/tree/main/packages/cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incognitify/incognitify.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/incognitify/incognitify/issues"
+  },
   "type": "module",
   "bin": {
     "incognitify": "./dist/index.js"
   },
-  "files": ["dist", "README.md"],
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
