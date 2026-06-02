@@ -7,6 +7,19 @@ import { roundTrip, spawnPipe } from './commands/run.js';
 import { runUnmask } from './commands/unmask.js';
 import { readStdin } from './stdin.js';
 
+/**
+ * Accumulate `--require` values across both repeated flags and comma lists, so
+ * `--require email,api_key` and `--require email --require api_key` both work.
+ */
+function collectTypes(value: string, previous: string[] = []): string[] {
+  return previous.concat(
+    value
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
+}
+
 const program = new Command();
 
 program
@@ -22,17 +35,30 @@ program
     'Write the vault as JSON to this path (loud opt-in: vault touches disk)',
   )
   .option('--dry-run', 'Print a detection report instead of the masked text')
-  .action(async (opts: { vault?: string; dryRun?: boolean }) => {
-    const input = await readStdin();
-    const out = runMask(input, {
-      dryRun: opts.dryRun ?? false,
-      emitVault: opts.vault !== undefined,
-    });
-    process.stdout.write(out.stdout);
-    if (opts.vault && out.vaultJson) {
-      await writeFile(opts.vault, `${JSON.stringify(out.vaultJson, null, 2)}\n`, 'utf8');
-    }
-  });
+  .option(
+    '--strict',
+    'Fail-closed: exit non-zero and write nothing if masked output still contains sensitive data',
+  )
+  .option(
+    '--require <types>',
+    'Comma-separated types that must be masked, e.g. email,api_key (implies --strict)',
+    collectTypes,
+  )
+  .action(
+    async (opts: { vault?: string; dryRun?: boolean; strict?: boolean; require?: string[] }) => {
+      const input = await readStdin();
+      const out = runMask(input, {
+        dryRun: opts.dryRun ?? false,
+        emitVault: opts.vault !== undefined,
+        strict: opts.strict ?? false,
+        require: opts.require,
+      });
+      process.stdout.write(out.stdout);
+      if (opts.vault && out.vaultJson) {
+        await writeFile(opts.vault, `${JSON.stringify(out.vaultJson, null, 2)}\n`, 'utf8');
+      }
+    },
+  );
 
 program
   .command('unmask')
@@ -50,11 +76,25 @@ program
   )
   .argument('<command>', 'The command to run')
   .argument('[args...]', 'Arguments passed to the command')
-  .action(async (command: string, args: string[]) => {
-    const input = await readStdin();
-    const result = await roundTrip(input, (masked) => spawnPipe(command, args, masked));
-    process.stdout.write(result);
-  });
+  .option(
+    '--strict',
+    'Fail-closed: abort before calling the command if masked text still contains sensitive data',
+  )
+  .option(
+    '--require <types>',
+    'Comma-separated types that must be masked, e.g. email,api_key (implies --strict)',
+    collectTypes,
+  )
+  .action(
+    async (command: string, args: string[], opts: { strict?: boolean; require?: string[] }) => {
+      const input = await readStdin();
+      const result = await roundTrip(input, (masked) => spawnPipe(command, args, masked), {
+        strict: opts.strict ?? false,
+        require: opts.require,
+      });
+      process.stdout.write(result);
+    },
+  );
 
 program.parseAsync(process.argv).catch((err: unknown) => {
   console.error(err instanceof Error ? err.message : String(err));

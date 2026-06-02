@@ -22,6 +22,29 @@ describe('roundTrip', () => {
     const result = await roundTrip('email a@x.com', async () => 'nothing sensitive here');
     expect(result).toBe('nothing sensitive here');
   });
+
+  it('strict aborts before calling the command when a required type is missing', async () => {
+    let called = false;
+    await expect(
+      roundTrip(
+        'nothing here',
+        async (masked) => {
+          called = true;
+          return masked;
+        },
+        { require: ['email'] },
+      ),
+    ).rejects.toThrow(/required type/);
+    expect(called).toBe(false); // the "LLM" was never invoked
+  });
+
+  it('strict allows the round-trip when required types are present', async () => {
+    const result = await roundTrip('a@x.com', async (masked) => `re: ${masked}`, {
+      strict: true,
+      require: ['email'],
+    });
+    expect(result).toBe('re: a@x.com');
+  });
 });
 
 describe('spawnPipe', () => {

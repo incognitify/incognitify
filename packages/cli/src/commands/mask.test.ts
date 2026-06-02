@@ -39,4 +39,12 @@ describe('runMask', () => {
       'No sensitive values detected.\n',
     );
   });
+
+  it('strict passes masked text through when required types are present', () => {
+    expect(runMask('a@x.com', { strict: true, require: ['email'] }).stdout).toBe('⟦EMAIL_1⟧');
+  });
+
+  it('strict (implied by --require) throws when a required type is absent', () => {
+    expect(() => runMask('nothing here', { require: ['email'] })).toThrow(/required type/);
+  });
 });
