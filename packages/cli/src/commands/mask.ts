@@ -5,12 +5,17 @@ import {
   mask,
   serializeVault,
 } from '@incognitify/core';
+import { assertStrict } from '../strict.js';
 
 export interface MaskOptions {
   /** Print a detection report instead of the masked text. */
   dryRun?: boolean;
   /** Caller wants the vault serialized; we return JSON so they can persist it. */
   emitVault?: boolean;
+  /** Fail-closed: run `--strict` checks and throw on violation. */
+  strict?: boolean;
+  /** Types that must have been masked (implies `strict`). */
+  require?: readonly string[] | undefined;
 }
 
 export interface MaskOutput {
@@ -23,6 +28,9 @@ export function runMask(input: string, options: MaskOptions = {}): MaskOutput {
   const { masked, vault, detections } = mask(input);
   if (options.dryRun) {
     return { stdout: formatDryRun(detections, vault) };
+  }
+  if (options.strict || (options.require?.length ?? 0) > 0) {
+    assertStrict(masked, detections, { require: options.require });
   }
   const out: MaskOutput = { stdout: masked };
   if (options.emitVault) out.vaultJson = serializeVault(vault);
