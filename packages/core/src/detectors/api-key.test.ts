@@ -44,6 +44,23 @@ describe('apiKeyDetector', () => {
     expect(out.map((d) => d.value).sort()).toEqual([aws, gh].sort());
   });
 
+  it('detects an sk- key whose body contains underscores or hyphens', () => {
+    // Regression: this exact value lived in dev/sample-prompt.txt and slipped
+    // through every pattern. The legacy `sk-` body was [A-Za-z0-9] only, so it
+    // stopped at the first `_`, leaving fewer than 20 chars and no match — a
+    // secret leaking straight to the LLM, the worst failure mode for this tool.
+    const key = 'sk-test_4eC39HqLyjWDarjtT1zdp7dc';
+    const out = apiKeyDetector.detect(`our internal API key is ${key}.`);
+    expect(out.map((d) => d.value)).toEqual([key]);
+    expect(out.map((d) => d.type)).toEqual(['API_KEY']);
+  });
+
+  it('detects an OpenAI service-account key', () => {
+    const key = `sk-svcacct-${'A'.repeat(40)}`;
+    const out = apiKeyDetector.detect(`key ${key} end`);
+    expect(out.map((d) => d.value)).toEqual([key]);
+  });
+
   it('does not match short non-key strings', () => {
     expect(apiKeyDetector.detect('sk-short')).toEqual([]);
     expect(apiKeyDetector.detect('AKIA short')).toEqual([]);

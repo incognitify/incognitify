@@ -4,6 +4,7 @@
   "private": true,
   "description": "Mask sensitive data before sending to an LLM, rehydrate the response.",
   "author": "Arthur Silva <contact@arthursilva.com>",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/incognitify/incognitify#readme",
   "repository": {
     "type": "git",

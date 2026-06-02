@@ -67,4 +67,4 @@ const myDetector: Detector = {
 mask('see INV-123456', { detectors: [myDetector] });
 ```
 
-Licensed under [MIT](./LICENSE).
+Licensed under [Apache-2.0](./LICENSE).

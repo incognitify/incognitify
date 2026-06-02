@@ -4,7 +4,7 @@
   "description": "Mask sensitive data before sending it to an LLM. CLI for @incognitify/core.",
   "keywords": ["llm", "ai", "privacy", "pii", "mask", "redact", "cli"],
   "author": "Arthur Silva <contact@arthursilva.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/incognitify/incognitify/tree/main/packages/cli#readme",
   "repository": {
     "type": "git",

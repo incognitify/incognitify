@@ -14,7 +14,7 @@ const PATTERNS = [
   'gh[pousr]_[A-Za-z0-9]{36,255}', // GitHub PAT / OAuth / server
   'sk-ant-api[0-9]{2}-[A-Za-z0-9_-]{20,}', // Anthropic
   'sk-proj-[A-Za-z0-9_-]{20,}', // OpenAI project keys
-  'sk-(?!ant-|proj-)[A-Za-z0-9]{20,}', // OpenAI legacy
+  'sk-(?!ant-|proj-)[A-Za-z0-9_-]{20,}', // OpenAI legacy + service-account / other sk- keys (bodies may contain _ or -)
   '(?:sk|pk|rk)_(?:live|test)_[A-Za-z0-9]{24,}', // Stripe
   'xox[abprs]-[A-Za-z0-9-]{20,}', // Slack
   'AIza[0-9A-Za-z_-]{35}', // Google API keys

@@ -4,7 +4,7 @@
   "description": "Detect sensitive data, mask it for LLM calls, and rehydrate responses. Browser-safe, no I/O.",
   "keywords": ["llm", "ai", "privacy", "pii", "mask", "redact", "anonymize", "sdk"],
   "author": "Arthur Silva <contact@arthursilva.com>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/incognitify/incognitify/tree/main/packages/core#readme",
   "repository": {
     "type": "git",

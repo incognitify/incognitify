@@ -60,4 +60,4 @@ cat prompt.txt | incognitify mask --vault v.json | llm | incognitify unmask --va
 In practice, prefer `incognitify run -- llm` when possible — it keeps the
 vault entirely in memory.
 
-Licensed under [MIT](./LICENSE).
+Licensed under [Apache-2.0](./LICENSE).

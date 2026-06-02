@@ -1,0 +1,6 @@
+# Scratch files produced while testing locally. Tracked samples
+# (sample-prompt.txt, fake-llm.sh) are listed below as exceptions.
+*
+!.gitignore
+!sample-prompt.txt
+!fake-llm.sh
