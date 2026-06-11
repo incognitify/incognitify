@@ -18,4 +18,4 @@ export type { Vault, VaultEntry } from './vault.js';
 export { deserializeVault, serializeVault, type VaultJson } from './vault-serialize.js';
 export { InMemoryVault } from './vaults/in-memory.js';
 
-export const VERSION = '0.0.0';
+export const VERSION = '0.1.0';
