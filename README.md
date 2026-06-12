@@ -9,6 +9,12 @@ clean answer with real values — while the provider never sees the originals.
   (detect, mask, vault, rehydrate). Browser-safe, no I/O.
 - [`packages/cli`](./packages/cli) — `incognitify`, the command-line interface.
 
+## Install
+
+```bash
+npm install -g incognitify
+```
+
 ## Usage
 
 The CLI is composed around stdin/stdout so it drops into any Unix pipeline.
@@ -22,8 +28,8 @@ Email ⟦EMAIL_1⟧ about card ⟦CREDIT_CARD_1⟧.
 $ echo 'Call 202-555-0100 at bodhi@example.com' | incognitify mask --dry-run
 2 detections:
 
-  EMAIL  [21..38]  bodhi@example.com  →  ⟦EMAIL_1⟧
   PHONE  [5..17]   202-555-0100       →  ⟦PHONE_1⟧
+  EMAIL  [21..38]  bodhi@example.com  →  ⟦EMAIL_1⟧
 
 # Round-trip through any shell command (LLM stand-in here is `cat`)
 $ echo 'Tell me about bodhi@example.com' | incognitify run -- cat
