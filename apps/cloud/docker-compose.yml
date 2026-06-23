@@ -1,0 +1,23 @@
+# Local Postgres for development. From the repo root:
+#   docker compose -f apps/cloud/docker-compose.yml up -d
+#   pnpm --filter @incognitify/cloud db:migrate
+#
+# Host port 55432 is project-specific so it won't clash with a system Postgres or
+# another project on the default 5432. The container still listens on 5432 internally.
+name: incognitify-cloud
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: incognitify-cloud-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: incognitify_cloud
+    ports:
+      - '55432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
