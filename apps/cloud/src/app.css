@@ -98,3 +98,10 @@
 .contents-wrapper {
   display: contents;
 }
+
+/* Smooth in-page anchor scrolling (landing nav), disabled for reduced-motion users. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

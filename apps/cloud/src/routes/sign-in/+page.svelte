@@ -27,28 +27,40 @@
   }
 </script>
 
-<main class="mx-auto flex min-h-full w-full max-w-sm flex-col justify-center gap-6 p-6">
-  <Card.Root>
-    <Card.Header>
-      <Card.Title>Sign in</Card.Title>
-      <Card.Description>Welcome back to Incognitify Cloud.</Card.Description>
-    </Card.Header>
-    <Card.Content>
-      <form class="flex flex-col gap-3" onsubmit={submit}>
-        <div class="flex flex-col gap-1.5">
-          <Label for="email">Email</Label>
-          <Input id="email" type="email" bind:value={email} required />
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <Label for="password">Password</Label>
-          <Input id="password" type="password" bind:value={password} required />
-        </div>
-        {#if error}<p class="text-sm text-destructive">{error}</p>{/if}
-        <Button type="submit" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</Button>
-      </form>
-    </Card.Content>
-  </Card.Root>
-  <p class="text-center text-sm text-muted-foreground">
-    Need an account? <a class="text-primary hover:underline" href="/sign-up">Create one</a>
-  </p>
+<main class="relative flex min-h-full w-full flex-col items-center justify-center gap-8 overflow-hidden p-6">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 z-0 h-72 bg-gradient-to-b from-accent to-transparent"
+  ></div>
+
+  <div class="relative z-10 flex w-full flex-col items-center gap-8">
+    <a href="/" aria-label="Incognitify Cloud home" class="inline-flex">
+      <img src="/logo.svg" alt="Incognitify Cloud" class="h-9 w-auto" />
+    </a>
+
+    <Card.Root class="w-full max-w-sm shadow-lg">
+      <Card.Header class="text-center">
+        <Card.Title class="text-2xl">Welcome back</Card.Title>
+        <Card.Description>Sign in to your Incognitify Cloud account.</Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <form class="flex flex-col gap-4" onsubmit={submit}>
+          <div class="flex flex-col gap-1.5">
+            <Label for="email">Email</Label>
+            <Input id="email" type="email" autocomplete="email" placeholder="you@company.com" bind:value={email} required />
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <Label for="password">Password</Label>
+            <Input id="password" type="password" autocomplete="current-password" bind:value={password} required />
+          </div>
+          {#if error}<p class="text-sm text-destructive">{error}</p>{/if}
+          <Button type="submit" class="mt-1 w-full" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</Button>
+        </form>
+      </Card.Content>
+    </Card.Root>
+
+    <p class="text-center text-sm text-muted-foreground">
+      Need an account? <a class="font-medium text-primary hover:underline" href="/sign-up">Create one</a>
+    </p>
+  </div>
 </main>
