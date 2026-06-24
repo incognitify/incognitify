@@ -4,6 +4,7 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import { Textarea } from '$lib/components/ui/textarea';
+  import { REPO_URL } from '$lib/config';
 
   const DETECTORS = ['Email', 'Phone', 'Credit card', 'SSN', 'IP address', 'API key', 'UUID'];
 
@@ -64,6 +65,14 @@ Prod server 10.0.0.42, trace 7c9e6679-7425-40de-944b-e07fc1f90ae7.`;
       reach an LLM — then restored in the reply. <strong class="text-foreground">This runs entirely
       in your browser</strong>: your text never leaves this page.
     </p>
+    <a
+      href={REPO_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mx-auto text-sm font-medium text-primary hover:underline"
+    >
+      View the open-source engine on GitHub →
+    </a>
     <div class="mx-auto flex flex-wrap items-center justify-center gap-2 pt-1">
       <span class="text-sm text-muted-foreground">Detects:</span>
       {#each DETECTORS as d (d)}<Badge variant="outline">{d}</Badge>{/each}

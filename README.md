@@ -67,3 +67,16 @@ pnpm typecheck   # tsc --noEmit across packages
 pnpm lint        # biome check
 pnpm format      # biome format --write
 ```
+
+## Licensing
+
+Open-core monorepo — licensing is **per directory**, and each folder's own `LICENSE`
+file is authoritative:
+
+| Path | License | What you may do |
+|---|---|---|
+| [`packages/core`](./packages/core), [`packages/cli`](./packages/cli) | **Apache-2.0** | Use freely, including commercially. |
+| [`apps/cloud`](./apps/cloud) — Incognitify Cloud (hosted SaaS) | **FSL-1.1-ALv2** (Functional Source License) | Source-available: read, modify, and self-host for your own use. You may **not** offer it as a competing commercial hosted service. Converts to Apache-2.0 two years after each release. |
+
+© Udooku LLC. The hosted app's source is public for transparency and self-hosting — the
+license, not secrecy, protects the service.

@@ -3,6 +3,7 @@
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import ImagePlaceholder from '$lib/components/image-placeholder.svelte';
+  import { REPO_URL } from '$lib/config';
 
   const detectors = ['Email', 'Phone', 'Credit card', 'SSN', 'IP address', 'API keys', 'UUID'];
 
@@ -99,7 +100,7 @@
     },
   ];
 
-  const faqs = [
+  const faqs: { q: string; a: string; link?: { href: string; label: string } }[] = [
     {
       q: 'Which LLM providers are supported?',
       a: 'Anthropic (Claude) and OpenAI-compatible APIs today, with more provider adapters on the way. You connect your own key for each.',
@@ -119,6 +120,7 @@
     {
       q: 'Can I self-host?',
       a: 'The core masking engine is open source, so you can run it yourself. Incognitify Cloud is the hosted, team-ready layer with shared keys, billing and audit.',
+      link: { href: REPO_URL, label: 'Browse the source on GitHub' },
     },
   ];
 </script>
@@ -249,6 +251,20 @@
           A round trip: mask on the way out, restore on the way back. Your data never leaves in the clear.
         </p>
       </div>
+      <figure class="mx-auto mt-10 max-w-4xl overflow-hidden rounded-xl border border-border bg-white p-4 shadow-sm sm:p-6">
+        <picture>
+          <source srcset="/how-it-works.webp" type="image/webp" />
+          <img
+            src="/how-it-works.png"
+            alt="The round-trip flow: sensitive fields in a prompt (email, ID, phone) are masked into tokens, sent to the LLM as tokens only, then restored to the real values in the response."
+            width="1600"
+            height="589"
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-full"
+          />
+        </picture>
+      </figure>
       <ol class="mt-12 grid gap-6 md:grid-cols-3">
         {#each steps as step (step.n)}
           <li>
@@ -394,6 +410,16 @@
               </svg>
             </summary>
             <p class="mt-3 text-sm text-muted-foreground">{faq.a}</p>
+            {#if faq.link}
+              <a
+                class="mt-2 inline-block text-sm font-medium text-primary hover:underline"
+                href={faq.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {faq.link.label} →
+              </a>
+            {/if}
           </details>
         {/each}
       </div>
@@ -437,6 +463,19 @@
       <p class="max-w-xs text-sm text-muted-foreground">
         Mask sensitive data before it reaches your LLM. Bring your own keys.
       </p>
+      <a
+        href={REPO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <svg class="h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.74-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+          />
+        </svg>
+        Source on GitHub
+      </a>
     </div>
     <nav aria-label="Product" class="flex flex-col gap-2 text-sm">
       <p class="font-semibold">Product</p>
