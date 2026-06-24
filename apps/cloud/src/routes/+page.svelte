@@ -147,6 +147,7 @@
     </a>
     <nav aria-label="Primary" class="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
       <a class="transition-colors hover:text-foreground" href="#how-it-works">How it works</a>
+      <a class="transition-colors hover:text-foreground" href="/playground">Playground</a>
       <a class="transition-colors hover:text-foreground" href="#features">Features</a>
       <a class="transition-colors hover:text-foreground" href="#pricing">Pricing</a>
       <a class="transition-colors hover:text-foreground" href="#faq">FAQ</a>
@@ -181,7 +182,7 @@
       </p>
       <div class="flex flex-col gap-3 sm:flex-row">
         <Button href="/sign-up" size="lg">Start free</Button>
-        <Button href="#how-it-works" size="lg" variant="outline">See how it works</Button>
+        <Button href="/playground" size="lg" variant="outline">Try it live</Button>
       </div>
       <p class="text-xs text-muted-foreground">
         No credit card required · Keys encrypted at rest · Vault never written to disk
@@ -202,7 +203,7 @@
             <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your prompt</p>
             <p class="text-sm leading-relaxed text-foreground">
               Look up the account for
-              <mark class="rounded bg-destructive/15 px-1 text-destructive">john@acme.com</mark>, SSN
+              <mark class="rounded bg-destructive/15 px-1 text-destructive">john@example.com</mark>, SSN
               <mark class="rounded bg-destructive/15 px-1 text-destructive">123-45-6789</mark>, callback
               <mark class="rounded bg-destructive/15 px-1 text-destructive">415-555-0132</mark>.
             </p>
@@ -225,7 +226,7 @@
           </p>
           <ul class="grid gap-2 sm:grid-cols-3">
             <li class="flex items-center gap-2 text-xs">
-              <Badge>EMAIL</Badge><span class="truncate font-mono text-muted-foreground">john@acme.com</span>
+              <Badge>EMAIL</Badge><span class="truncate font-mono text-muted-foreground">john@example.com</span>
             </li>
             <li class="flex items-center gap-2 text-xs">
               <Badge>SSN</Badge><span class="truncate font-mono text-muted-foreground">123-45-6789</span>

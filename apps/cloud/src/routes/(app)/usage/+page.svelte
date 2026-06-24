@@ -14,19 +14,6 @@
   });
 </script>
 
-<header class="flex items-center justify-between border-b border-border px-6 py-4">
-  <a href="/" class="inline-flex">
-    <img src="/logo.svg" alt="Incognitify Cloud" class="h-8 w-auto" />
-  </a>
-  <nav class="flex gap-4 text-sm text-muted-foreground">
-    <a class="hover:underline" href="/chat">Chat</a>
-    <a class="hover:underline" href="/keys">Keys</a>
-    <a class="hover:underline" href="/members">Members</a>
-    <a class="hover:underline" href="/billing">Billing</a>
-    <a class="hover:underline" href="/">Home</a>
-  </nav>
-</header>
-
 <main class="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6">
   <div class="flex items-baseline justify-between">
     <h1 class="text-xl font-semibold tracking-tight">Usage</h1>
@@ -35,7 +22,7 @@
 
   {#if data.needsOrg}
     <p class="text-sm text-muted-foreground">
-      Create an organization first on the <a class="text-primary hover:underline" href="/">home page</a>.
+      Create an organization first on the <a class="text-primary hover:underline" href="/dashboard">dashboard</a>.
     </p>
   {:else}
     <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">

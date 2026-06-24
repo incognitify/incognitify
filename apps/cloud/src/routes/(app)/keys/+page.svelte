@@ -19,14 +19,11 @@
 </script>
 
 <main class="mx-auto flex w-full max-w-2xl flex-col gap-6 p-6">
-  <div class="flex items-center justify-between">
-    <h1 class="text-xl font-semibold tracking-tight">API keys</h1>
-    <a class="text-sm text-muted-foreground hover:underline" href="/">← Back</a>
-  </div>
+  <h1 class="text-xl font-semibold tracking-tight">API keys</h1>
 
   {#if data.needsOrg}
     <p class="text-sm text-muted-foreground">
-      Create an organization first on the <a class="text-primary hover:underline" href="/">home page</a>.
+      Create an organization first on the <a class="text-primary hover:underline" href="/dashboard">dashboard</a>.
     </p>
   {:else}
     {#if form?.error}

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { and, eq } from 'drizzle-orm';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { organization } from 'better-auth/plugins';
@@ -37,7 +38,61 @@ export const auth = betterAuth({
   baseURL: appUrl,
   secret: process.env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(getDb(), { provider: 'pg', schema }),
-  emailAndPassword: { enabled: true },
+  // Email ownership must be proven before the account can be used. Email is only a
+  // verification channel here, never an authenticator (NIST 800-63B): the password
+  // stays the login factor.
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    resetPasswordTokenExpiresIn: 60 * 60,
+    async sendResetPassword({ user, url }) {
+      const safeName = escapeHtml(user.name || user.email);
+      await sendEmail({
+        to: user.email,
+        subject: 'Reset your Incognitify Cloud password',
+        text: `Reset your password using this link:\n${url}\n\nThis link expires in 1 hour. If you didn't request a reset, ignore this email — your password won't change.`,
+        html: `<img src="${appUrl}/logo.png" alt="Incognitify Cloud" height="40" style="display:block;margin-bottom:16px" /><p>Hi ${safeName},</p><p>We received a request to reset your <strong>Incognitify Cloud</strong> password.</p><p><a href="${url}">Reset my password</a></p><p style="color:#64748b;font-size:12px">This link expires in 1 hour. If you didn't request this, ignore this email — your password won't change.</p>`,
+      });
+    },
+  },
+  emailVerification: {
+    // Sign-up sends the link (requireEmailVerification → unverified users); an
+    // unverified sign-in attempt resends it. Single-use token, expires in 1 hour.
+    sendOnSignIn: true,
+    autoSignInAfterVerification: true,
+    expiresIn: 60 * 60,
+    async sendVerificationEmail({ user, url }) {
+      const safeName = escapeHtml(user.name || user.email);
+      await sendEmail({
+        to: user.email,
+        subject: 'Verify your email for Incognitify Cloud',
+        text: `Confirm your email to activate your Incognitify Cloud account:\n${url}\n\nThis link expires in 1 hour. If you didn't create this account, you can ignore this email.`,
+        html: `<img src="${appUrl}/logo.png" alt="Incognitify Cloud" height="40" style="display:block;margin-bottom:16px" /><p>Hi ${safeName},</p><p>Confirm your email to activate your <strong>Incognitify Cloud</strong> account.</p><p><a href="${url}">Verify my email</a></p><p style="color:#64748b;font-size:12px">This link expires in 1 hour. If you didn't create this account, you can ignore this email.</p>`,
+      });
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        // An invitee already proved control of their inbox by receiving the invite,
+        // so pre-verify them and skip the redundant second email.
+        before: async (newUser) => {
+          try {
+            const rows = await getDb()
+              .select({ id: schema.invitation.id })
+              .from(schema.invitation)
+              .where(
+                and(eq(schema.invitation.email, newUser.email), eq(schema.invitation.status, 'pending')),
+              )
+              .limit(1);
+            if (rows.length > 0) return { data: { ...newUser, emailVerified: true } };
+          } catch (e) {
+            console.error('[auth] pending-invite pre-verify check failed', e);
+          }
+        },
+      },
+    },
+  },
   // Orgs = accounts. Admin provisions shared keys; members use them or add their own.
   plugins: [
     organization({

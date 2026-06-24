@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Badge } from '$lib/components/ui/badge';
   import { Button } from '$lib/components/ui/button';
   import * as Card from '$lib/components/ui/card';
   import type { ActionData, PageData } from './$types';
@@ -10,19 +11,6 @@
     data.currentPeriodEnd ? new Date(data.currentPeriodEnd).toLocaleDateString() : null,
   );
 </script>
-
-<header class="flex items-center justify-between border-b border-border px-6 py-4">
-  <a href="/" class="inline-flex">
-    <img src="/logo.svg" alt="Incognitify Cloud" class="h-8 w-auto" />
-  </a>
-  <nav class="flex gap-4 text-sm text-muted-foreground">
-    <a class="hover:underline" href="/chat">Chat</a>
-    <a class="hover:underline" href="/keys">Keys</a>
-    <a class="hover:underline" href="/members">Members</a>
-    <a class="hover:underline" href="/usage">Usage</a>
-    <a class="hover:underline" href="/">Home</a>
-  </nav>
-</header>
 
 <main class="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6">
   <h1 class="text-xl font-semibold tracking-tight">Billing</h1>
@@ -69,23 +57,32 @@
     </Card.Root>
 
     <div class="grid gap-4 sm:grid-cols-3">
-      <Card.Root>
+      <Card.Root class={data.plan === 'free' ? 'border-primary ring-1 ring-primary' : ''}>
         <Card.Content class="p-4 text-sm">
-          <p class="font-semibold">Free</p>
+          <div class="flex items-center justify-between gap-2">
+            <p class="font-semibold">Free</p>
+            {#if data.plan === 'free'}<Badge>Current</Badge>{/if}
+          </div>
           <p class="text-muted-foreground">$0</p>
           <p class="mt-2 text-xs text-muted-foreground">Solo. Personal keys only.</p>
         </Card.Content>
       </Card.Root>
-      <Card.Root class="border-primary">
+      <Card.Root class={data.plan === 'team' ? 'border-primary ring-1 ring-primary' : ''}>
         <Card.Content class="p-4 text-sm">
-          <p class="font-semibold">Team</p>
+          <div class="flex items-center justify-between gap-2">
+            <p class="font-semibold">Team</p>
+            {#if data.plan === 'team'}<Badge>Current</Badge>{/if}
+          </div>
           <p class="text-muted-foreground">$20 / seat / mo</p>
           <p class="mt-2 text-xs text-muted-foreground">Shared org keys, unlimited members.</p>
         </Card.Content>
       </Card.Root>
-      <Card.Root>
+      <Card.Root class={data.plan === 'enterprise' ? 'border-primary ring-1 ring-primary' : ''}>
         <Card.Content class="p-4 text-sm">
-          <p class="font-semibold">Enterprise</p>
+          <div class="flex items-center justify-between gap-2">
+            <p class="font-semibold">Enterprise</p>
+            {#if data.plan === 'enterprise'}<Badge>Current</Badge>{/if}
+          </div>
           <p class="text-muted-foreground">Custom</p>
           <p class="mt-2 text-xs text-muted-foreground">
             SSO, audit, SLA. <a class="text-primary hover:underline" href="mailto:support@incognitify.com">Contact us</a>.

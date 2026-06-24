@@ -91,20 +91,7 @@
   }
 </script>
 
-<header class="flex items-center justify-between border-b border-border px-6 py-4">
-  <a href="/" class="inline-flex">
-    <img src="/logo.svg" alt="Incognitify Cloud" class="h-8 w-auto" />
-  </a>
-  <nav class="flex gap-4 text-sm text-muted-foreground">
-    <a class="hover:underline" href="/keys">Keys</a>
-    <a class="hover:underline" href="/members">Members</a>
-    <a class="hover:underline" href="/billing">Billing</a>
-    <a class="hover:underline" href="/usage">Usage</a>
-    <a class="hover:underline" href="/">Home</a>
-  </nav>
-</header>
-
-<main class="mx-auto flex h-[calc(100vh-65px)] w-full max-w-2xl flex-col gap-4 p-6">
+<main class="mx-auto flex min-h-0 w-full max-w-2xl flex-1 flex-col gap-4 p-6">
   {#if data.needsOrg || data.keys.length === 0}
     <p class="text-sm text-muted-foreground">
       Add a provider key first on the
