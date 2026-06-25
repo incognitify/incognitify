@@ -23,21 +23,20 @@ pnpm --filter @incognitify/cloud dev
 
 ## Scripts
 
-| Script | What |
-|---|---|
-| `dev` | Vite dev server |
-| `build` / `start` | production build / run (`node build`) |
-| `typecheck` | `svelte-kit sync` + `svelte-check` |
-| `db:generate` | generate Drizzle migrations from `schema.ts` |
-| `db:migrate` | apply migrations |
-| `db:studio` | Drizzle Studio |
+| Script            | What                                         |
+| ----------------- | -------------------------------------------- |
+| `dev`             | Vite dev server                              |
+| `build` / `start` | production build / run (`node build`)        |
+| `typecheck`       | `svelte-kit sync` + `svelte-check`           |
+| `db:generate`     | generate Drizzle migrations from `schema.ts` |
+| `db:migrate`      | apply migrations                             |
+| `db:studio`       | Drizzle Studio                               |
 
 ## Security note
 
 Provider keys are stored with **envelope encryption** (per-org DEK, AES-256-GCM; DEK
 wrapped by the `KEK_BASE64` master key from secrets). Only `last4` + label are
-plaintext. Keys are never logged. See `src/lib/server/crypto/envelope.ts` and
-`../../dev/cloud/DECISIONS.md`.
+plaintext. Keys are never logged. See `src/lib/server/crypto/envelope.ts`.
 
 ## License
 
