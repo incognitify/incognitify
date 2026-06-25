@@ -1,6 +1,6 @@
 import { building } from '$app/environment';
 import { auth } from '$lib/server/auth';
-import { redirect, type Handle } from '@sveltejs/kit';
+import { type Handle, redirect } from '@sveltejs/kit';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
 
 // One deployment, two hosts:
@@ -35,7 +35,9 @@ export const handle: Handle = async ({ event, resolve }) => {
       // host's root lands in the app, not on the marketing page.
       redirect(
         308,
-        pathname === '/' ? `https://${APP_HOST}/dashboard` : `https://${ROOT_HOST}${pathname}${search}`,
+        pathname === '/'
+          ? `https://${APP_HOST}/dashboard`
+          : `https://${ROOT_HOST}${pathname}${search}`,
       );
     }
   }
