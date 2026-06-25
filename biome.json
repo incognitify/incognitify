@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignore": ["dist", "coverage", "node_modules", "dev"]
+    "ignore": [".svelte-kit", "build", "dist", "coverage", "node_modules", "dev", "**/*.svelte"]
   },
   "formatter": {
     "enabled": true,

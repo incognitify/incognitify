@@ -1,0 +1,52 @@
+{
+  "name": "@incognitify/cloud",
+  "version": "0.0.0",
+  "private": true,
+  "license": "FSL-1.1-ALv2",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node build",
+    "sync": "svelte-kit sync",
+    "typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.105.0",
+    "@incognitify/core": "workspace:*",
+    "better-auth": "^1.6.19",
+    "bits-ui": "^2.18.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "mode-watcher": "^1.1.0",
+    "nodemailer": "^9.0.1",
+    "openai": "^6.44.0",
+    "postgres": "^3.4.9",
+    "stripe": "^22.2.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwind-variants": "^3.2.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.5.4",
+    "@sveltejs/kit": "^2.65.2",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^8.0.1",
+    "drizzle-kit": "^0.31.10",
+    "svelte": "^5.56.3",
+    "svelte-check": "^4.6.0",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^5.7.2",
+    "vite": "^8.0.16"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
