@@ -1,6 +1,6 @@
-import { redirect } from '@sveltejs/kit';
 import { listKeys, resolveOrgContext } from '$lib/server/keys';
 import { MODELS } from '$lib/server/providers';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {

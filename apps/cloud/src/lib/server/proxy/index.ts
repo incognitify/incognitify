@@ -1,8 +1,8 @@
 import { getDb } from '../db';
 import { usageEvent } from '../db/schema';
-import { getUsableKey, type OrgContext } from '../keys';
+import { type OrgContext, getUsableKey } from '../keys';
 import type { Provider } from '../providers';
-import { streamCompletion, type Usage } from './llm';
+import { type Usage, streamCompletion } from './llm';
 import { type ChatMessage, maskRequest } from './mask';
 import { StreamRehydrator } from './rehydrate';
 
@@ -57,7 +57,16 @@ export async function runChat(params: {
         errorCode = errorCodeOf(err);
         send({ type: 'error', message: 'The provider request failed.' });
       } finally {
-        await recordUsage(ctx, keyId, key.provider, model, masked.maskedCount, usage, status, errorCode);
+        await recordUsage(
+          ctx,
+          keyId,
+          key.provider,
+          model,
+          masked.maskedCount,
+          usage,
+          status,
+          errorCode,
+        );
         send({ type: 'done', usage, status });
         controller.close();
       }
@@ -84,18 +93,20 @@ async function recordUsage(
 ): Promise<void> {
   try {
     // Counts + metadata only — never prompt/response content (vault rules).
-    await getDb().insert(usageEvent).values({
-      organizationId: ctx.orgId,
-      userId: ctx.userId,
-      providerKeyId: keyId,
-      provider,
-      model,
-      promptTokens: usage.promptTokens ?? null,
-      completionTokens: usage.completionTokens ?? null,
-      maskedCount,
-      status,
-      errorCode: errorCode ?? null,
-    });
+    await getDb()
+      .insert(usageEvent)
+      .values({
+        organizationId: ctx.orgId,
+        userId: ctx.userId,
+        providerKeyId: keyId,
+        provider,
+        model,
+        promptTokens: usage.promptTokens ?? null,
+        completionTokens: usage.completionTokens ?? null,
+        maskedCount,
+        status,
+        errorCode: errorCode ?? null,
+      });
   } catch {
     // Metering must never break the user's response.
   }

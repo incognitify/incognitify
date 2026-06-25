@@ -1,6 +1,6 @@
 import { and, desc, eq, or } from 'drizzle-orm';
 import { recordAudit } from './audit';
-import { seal, open, generateDek, unwrapDek, wrapDek } from './crypto/envelope';
+import { generateDek, open, seal, unwrapDek, wrapDek } from './crypto/envelope';
 import { getDb } from './db';
 import { member, orgEncryptionKey, providerKey } from './db/schema';
 import { getKek } from './env';
@@ -50,7 +50,11 @@ async function getOrgDek(orgId: string): Promise<{ dek: Buffer; dekId: string }>
     .limit(1);
   const row = existing[0];
   if (row) {
-    const dek = unwrapDek(kek, { ciphertext: row.wrappedDek, iv: row.wrapIv, authTag: row.wrapAuthTag });
+    const dek = unwrapDek(kek, {
+      ciphertext: row.wrappedDek,
+      iv: row.wrapIv,
+      authTag: row.wrapAuthTag,
+    });
     return { dek, dekId: row.id };
   }
 
@@ -114,20 +118,22 @@ export async function provisionKey(input: {
 
   const { dek, dekId } = await getOrgDek(ctx.orgId);
   const sealed = seal(dek, apiKey);
-  await getDb().insert(providerKey).values({
-    organizationId: ctx.orgId,
-    scope,
-    ownerUserId: scope === 'user' ? ctx.userId : null,
-    provider,
-    label,
-    last4: apiKey.slice(-4),
-    ciphertext: sealed.ciphertext,
-    iv: sealed.iv,
-    authTag: sealed.authTag,
-    dekId,
-    createdByUserId: ctx.userId,
-    lastValidatedAt: new Date(),
-  });
+  await getDb()
+    .insert(providerKey)
+    .values({
+      organizationId: ctx.orgId,
+      scope,
+      ownerUserId: scope === 'user' ? ctx.userId : null,
+      provider,
+      label,
+      last4: apiKey.slice(-4),
+      ciphertext: sealed.ciphertext,
+      iv: sealed.iv,
+      authTag: sealed.authTag,
+      dekId,
+      createdByUserId: ctx.userId,
+      lastValidatedAt: new Date(),
+    });
 
   await recordAudit({
     orgId: ctx.orgId,

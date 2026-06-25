@@ -53,7 +53,9 @@ export const orgEncryptionKey = pgTable(
   },
   (t) => [
     // at most one active DEK per org
-    uniqueIndex('org_active_dek_idx').on(t.organizationId).where(sql`${t.status} = 'active'`),
+    uniqueIndex('org_active_dek_idx')
+      .on(t.organizationId)
+      .where(sql`${t.status} = 'active'`),
   ],
 );
 

@@ -1,5 +1,5 @@
-import { fail, redirect } from '@sveltejs/kit';
 import { listKeys, provisionKey, removeKey, resolveOrgContext } from '$lib/server/keys';
+import { fail, redirect } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -41,7 +41,8 @@ export const actions: Actions = {
     if (!keyId) return fail(400, { success: false, error: 'Missing key id.' });
 
     const result = await removeKey(ctx, keyId);
-    if (!result.ok) return fail(400, { success: false, error: result.error ?? 'Failed to remove.' });
+    if (!result.ok)
+      return fail(400, { success: false, error: result.error ?? 'Failed to remove.' });
     return { success: true, error: null };
   },
 };

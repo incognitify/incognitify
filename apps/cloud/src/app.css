@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* Enables `dark:` utilities driven by a `.dark` class on <html>. */
 @custom-variant dark (&:is(.dark *));
@@ -81,8 +81,8 @@
   --color-ring: var(--ring);
   --radius-lg: var(--radius);
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 @layer base {

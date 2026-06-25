@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { and, eq } from 'drizzle-orm';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { organization } from 'better-auth/plugins';
+import { and, eq } from 'drizzle-orm';
 import { recordAudit } from './audit';
 import { syncSeats } from './billing';
 import { getDb } from './db';
@@ -82,7 +82,10 @@ export const auth = betterAuth({
               .select({ id: schema.invitation.id })
               .from(schema.invitation)
               .where(
-                and(eq(schema.invitation.email, newUser.email), eq(schema.invitation.status, 'pending')),
+                and(
+                  eq(schema.invitation.email, newUser.email),
+                  eq(schema.invitation.status, 'pending'),
+                ),
               )
               .limit(1);
             if (rows.length > 0) return { data: { ...newUser, emailVerified: true } };

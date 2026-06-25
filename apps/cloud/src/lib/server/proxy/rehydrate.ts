@@ -1,4 +1,4 @@
-import { unmask, type Vault } from '@incognitify/core';
+import { type Vault, unmask } from '@incognitify/core';
 
 const OPEN = '⟦'; // U+27E6
 const CLOSE = '⟧'; // U+27E7

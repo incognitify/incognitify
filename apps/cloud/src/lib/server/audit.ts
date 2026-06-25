@@ -14,14 +14,16 @@ export interface AuditEntry {
 /** Append an audit-log row. Never throws — auditing must not break the underlying action. */
 export async function recordAudit(entry: AuditEntry): Promise<void> {
   try {
-    await getDb().insert(auditLog).values({
-      organizationId: entry.orgId,
-      actorUserId: entry.actorUserId ?? null,
-      action: entry.action,
-      targetType: entry.targetType ?? null,
-      targetId: entry.targetId ?? null,
-      metadata: entry.metadata ?? null,
-    });
+    await getDb()
+      .insert(auditLog)
+      .values({
+        organizationId: entry.orgId,
+        actorUserId: entry.actorUserId ?? null,
+        action: entry.action,
+        targetType: entry.targetType ?? null,
+        targetId: entry.targetId ?? null,
+        metadata: entry.metadata ?? null,
+      });
   } catch (e) {
     console.error('[audit] failed to record', entry.action, e);
   }

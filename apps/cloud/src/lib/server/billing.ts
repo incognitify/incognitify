@@ -41,7 +41,11 @@ export async function ensureCustomer(orgId: string, email: string): Promise<stri
 
   const db = getDb();
   const org = (
-    await db.select({ name: organization.name }).from(organization).where(eq(organization.id, orgId)).limit(1)
+    await db
+      .select({ name: organization.name })
+      .from(organization)
+      .where(eq(organization.id, orgId))
+      .limit(1)
   )[0];
 
   const customer = await getStripe().customers.create({
@@ -67,7 +71,11 @@ export async function ensureCustomer(orgId: string, email: string): Promise<stri
 }
 
 /** Start a Checkout session for the Team plan (per-seat, quantity = member count). */
-export async function createCheckout(orgId: string, email: string, returnUrl: string): Promise<string | null> {
+export async function createCheckout(
+  orgId: string,
+  email: string,
+  returnUrl: string,
+): Promise<string | null> {
   const priceId = process.env.STRIPE_PRICE_TEAM;
   if (!priceId) throw new Error('STRIPE_PRICE_TEAM is not set');
 
@@ -102,7 +110,11 @@ export async function applyStripeSubscription(sub: Stripe.Subscription): Promise
   const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
   const db = getDb();
   const row = (
-    await db.select().from(subscription).where(eq(subscription.stripeCustomerId, customerId)).limit(1)
+    await db
+      .select()
+      .from(subscription)
+      .where(eq(subscription.stripeCustomerId, customerId))
+      .limit(1)
   )[0];
   if (!row) return;
 
@@ -129,7 +141,11 @@ export async function applyStripeSubscription(sub: Stripe.Subscription): Promise
       orgId: row.organizationId,
       action: 'subscription.changed',
       targetType: 'subscription',
-      metadata: { from: { plan: row.plan, status: row.status }, to: { plan, status }, seats: item?.quantity ?? null },
+      metadata: {
+        from: { plan: row.plan, status: row.status },
+        to: { plan, status },
+        seats: item?.quantity ?? null,
+      },
     });
   }
 }

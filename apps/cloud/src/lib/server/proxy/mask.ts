@@ -1,4 +1,4 @@
-import { mask as coreMask, type Vault } from '@incognitify/core';
+import { type Vault, mask as coreMask } from '@incognitify/core';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';

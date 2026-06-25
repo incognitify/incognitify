@@ -1,6 +1,6 @@
-import { redirect } from '@sveltejs/kit';
 import { getRecentAudit } from '$lib/server/audit';
 import { resolveOrgContext } from '$lib/server/keys';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
