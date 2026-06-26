@@ -47,7 +47,12 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = null;
     event.locals.session = null;
   } else {
-    const result = await auth.api.getSession({ headers: event.request.headers }).catch(() => null);
+    const result = await auth.api.getSession({ headers: event.request.headers }).catch((err) => {
+      // Treat an auth/DB failure as logged-out rather than 500'ing the page — but LOG it.
+      // Silently swallowing this is what made the prod hang/0-byte response undiagnosable.
+      console.error('[hooks] getSession failed', err);
+      return null;
+    });
     event.locals.user = result?.user ?? null;
     event.locals.session = result?.session ?? null;
   }
