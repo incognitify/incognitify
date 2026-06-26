@@ -1,9 +1,16 @@
 // Applies Drizzle migrations at deploy time using the runtime migrator (no drizzle-kit
 // dev dependency needed in production). Idempotent — already-applied migrations are skipped.
 import 'dotenv/config';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
+
+// Resolve the migrations folder relative to THIS file, not the process cwd. Railway runs
+// this as a preDeployCommand whose working directory we don't want to depend on; a relative
+// './drizzle' would break if the cwd ever differs from apps/cloud.
+const migrationsFolder = join(dirname(fileURLToPath(import.meta.url)), 'drizzle');
 
 const url = process.env.DATABASE_URL;
 if (!url) {
@@ -24,7 +31,7 @@ async function runMigrations() {
     const sql = postgres(url, { max: 1, connect_timeout: 15 });
     try {
       console.log(`migrate: connecting to ${redacted} (attempt ${attempt}/${ATTEMPTS})`);
-      await migrate(drizzle(sql), { migrationsFolder: './drizzle' });
+      await migrate(drizzle(sql), { migrationsFolder });
       console.log('migrate: done');
       await sql.end({ timeout: 5 });
       return 0;
