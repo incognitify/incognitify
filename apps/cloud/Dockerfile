@@ -13,8 +13,12 @@ RUN pnpm --filter @incognitify/cloud build
 
 FROM node:22-slim AS runtime
 ENV NODE_ENV=production
+# adapter-node listens on $PORT (default 3000). Pin it to 8080 so the listen port,
+# EXPOSE, and Railway's target port all agree. Railway can still override PORT at
+# runtime — and adapter-node will follow it — so routing stays correct either way.
+ENV PORT=8080
 WORKDIR /repo/apps/cloud
 COPY --from=build /repo /repo
-EXPOSE 3000
+EXPOSE 8080
 # Start command (migrate then serve) is set in railway.json.
 CMD ["node", "build"]
