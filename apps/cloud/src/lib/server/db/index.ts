@@ -13,7 +13,9 @@ let db: PostgresJsDatabase<typeof schema> | null = null;
 export function getDb(): PostgresJsDatabase<typeof schema> {
   if (!db) {
     const url = process.env.DATABASE_URL || 'postgres://localhost:5432/incognitify_cloud';
-    const client = postgres(url, { prepare: false });
+    // connect_timeout (seconds): an unreachable/slow DB errors fast and loudly instead of
+    // hanging the request forever, which is what produced silent 0-byte prod responses.
+    const client = postgres(url, { prepare: false, connect_timeout: 10 });
     db = drizzle(client, { schema });
   }
   return db;
